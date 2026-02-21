@@ -4,24 +4,24 @@ import { useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { useRouter } from 'next/navigation'
 
-export default function Login() {
+export default function Signup() {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const handleLogin = async () => {
+  const handleSignup = async () => {
     setLoading(true)
     setError(null)
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
     })
 
     if (error) {
-      setError('Email ou senha inválidos')
+      setError('Erro ao criar conta')
       setLoading(false)
       return
     }
@@ -32,7 +32,7 @@ export default function Login() {
   return (
     <div className="card">
       <h1 className="title">Radar C</h1>
-      <p className="subtitle">Acesse sua conta</p>
+      <p className="subtitle">Crie sua conta</p>
 
       <input
         type="email"
@@ -52,12 +52,12 @@ export default function Login() {
 
       {error && <p className="error">{error}</p>}
 
-      <button onClick={handleLogin} disabled={loading} className="button">
-        {loading ? 'Entrando...' : 'Entrar'}
+      <button onClick={handleSignup} disabled={loading} className="button">
+        {loading ? 'Criando...' : 'Criar Conta'}
       </button>
 
       <p className="link-text">
-        Não tem conta? <a href="/signup">Criar conta</a>
+        Já tem conta? <a href="/login">Entrar</a>
       </p>
     </div>
   )
