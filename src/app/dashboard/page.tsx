@@ -18,20 +18,55 @@ export default function Dashboard() {
   const [clients, setClients] = useState<Client[]>([])
   const [loading, setLoading] = useState(true)
   const [showOnlyRisk, setShowOnlyRisk] = useState(false)
+  const [trialExpired, setTrialExpired] = useState(false)
+  const [checkingTrial, setCheckingTrial] = useState(true)
 
-  useEffect(() => {
-    const fetchClients = async () => {
-      const { data } = await supabase
-        .from('clients')
-        .select('*')
-        .order('created_at', { ascending: false })
+useEffect(() => {
+  const init = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
 
-      if (data) setClients(data)
-      setLoading(false)
+    if (!user) return
+
+    // Buscar perfil com trial
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('trial_started_at')
+      .eq('id', user.id)
+      .single()
+
+    if (!profile?.trial_started_at) {
+      setCheckingTrial(false)
+      return
     }
 
-    fetchClients()
-  }, [])
+    const start = new Date(profile.trial_started_at)
+    const now = new Date()
+
+    const diffInDays =
+      (now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
+
+    if (diffInDays > 7) {
+      setTrialExpired(true)
+      setCheckingTrial(false)
+      return
+    }
+
+    // Se trial ainda válido, carregar clientes
+    const { data } = await supabase
+      .from('clients')
+      .select('*')
+      .order('created_at', { ascending: false })
+
+    if (data) setClients(data)
+
+    setCheckingTrial(false)
+    setLoading(false)
+  }
+
+  init()
+}, [])
 
   const handleRegisterContact = async (clientId: string) => {
     const now = new Date().toISOString()
@@ -50,6 +85,33 @@ export default function Dashboard() {
     }
   }
 
+  if (checkingTrial) {
+  return <div className="container">Verificando acesso...</div>
+}
+
+if (trialExpired) {
+  return (
+    <div className="container">
+      <h1>Seu período de teste terminou.</h1>
+      <p style={{ marginTop: 16 }}>
+        Você usou o sistema por 7 dias.
+        Quer continuar protegendo seus clientes?
+      </p>
+
+      <button
+        className="btn btn-primary"
+        style={{ marginTop: 24 }}
+        onClick={() =>
+          window.location.href =
+            'https://wa.me/5511952815917'
+        }
+      >
+        Falar com o fundador
+      </button>
+    </div>
+  )
+}
+  
   if (loading) return <div className="container">Carregando...</div>
 
   const risco = clients.filter(c => getRadarStatus(c.last_contact_at) === 'risco').length
@@ -75,12 +137,45 @@ export default function Dashboard() {
     ? sortedClients.filter(c => getRadarStatus(c.last_contact_at) === 'risco')
     : sortedClients
 
-  return (
+return (
   <div className="container">
 
     <div className="page-header">
       <h1 className="page-title">Radar C</h1>
       <div className="user-info">Painel de clientes</div>
+    </div>
+
+    {/* FRASE DE IMPACTO */}
+    <div style={{ marginBottom: 24 }}>
+      <h2 style={{ marginBottom: 6 }}>
+        Nenhum cliente pode cair no esquecimento.
+      </h2>
+      <p style={{ opacity: 0.7 }}>
+        O Radar C mostra quem você precisa contatar antes de perder a oportunidade.
+      </p>
+    </div>
+
+    {/* ALERTA PSICOLÓGICO */}
+    {risco > 0 && (
+      <div
+        style={{
+          background: '#ffe5e5',
+          border: '1px solid #ffb3b3',
+          padding: 16,
+          borderRadius: 8,
+          marginBottom: 24,
+          fontWeight: 500,
+        }}
+      >
+        ⚠️ Você tem {risco} cliente(s) em risco de esfriar.
+      </div>
+    )}
+
+    {/* BOTÃO PRINCIPAL */}
+    <div style={{ marginBottom: 24 }}>
+      <button className="btn btn-primary">
+        + Adicionar Cliente
+      </button>
     </div>
 
     {/* MÉTRICAS */}
