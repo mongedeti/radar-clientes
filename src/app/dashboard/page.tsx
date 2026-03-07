@@ -47,7 +47,7 @@ useEffect(() => {
     const diffInDays =
       (now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
 
-    if (diffInDays > 7) {
+    if (diffInDays > 30) {
       setTrialExpired(true)
       setCheckingTrial(false)
       return
@@ -94,7 +94,7 @@ if (trialExpired) {
     <div className="container">
       <h1>Seu período de teste terminou.</h1>
       <p style={{ marginTop: 16 }}>
-        Você usou o sistema por 7 dias.
+        Você usou o sistema por 30 dias.
         Quer continuar protegendo seus clientes?
       </p>
 
