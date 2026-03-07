@@ -210,9 +210,11 @@ return (
 
     {/* BOTÃO PRINCIPAL */}
     <div style={{ marginBottom: 24 }}>
-      <button className="btn btn-primary">
-        + Adicionar Cliente
-      </button>
+		<a href="/clients">
+		  <button className="btn btn-primary">
+			+ Adicionar Cliente
+		  </button>
+		</a>
     </div>
 
     {/* MÉTRICAS */}

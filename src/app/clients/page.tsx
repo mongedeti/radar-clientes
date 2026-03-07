@@ -46,49 +46,64 @@ export default function NewClient() {
       },
     ])
 
-	if (error) {
-	  console.error('Client error:', error)
-	  setError(`Erro: ${error.message}`)
-	  return
-	}
+    if (error) {
+      console.error('Client error:', error)
+      setError(`Erro: ${error.message}`)
+      setLoading(false)
+      return
+    }
 
     router.push('/dashboard')
   }
 
   return (
-    <div className="card">
-      <h1 className="title">Novo Cliente</h1>
-      <p className="subtitle">Adicionar cliente ao Radar</p>
+    <div>
 
-      <input
-        type="text"
-        placeholder="Nome"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className="input"
-      />
+      {/* BOTÃO VOLTAR */}
+      <div style={{ marginBottom: 20 }}>
+        <button
+          className="btn btn-secondary"
+          onClick={() => router.push('/dashboard')}
+        >
+          ← Dashboard
+        </button>
+      </div>
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="input"
-      />
+      <div className="card">
+        <h1 className="title">Novo Cliente</h1>
+        <p className="subtitle">Adicionar cliente ao Radar</p>
 
-      <input
-        type="text"
-        placeholder="Telefone"
-        value={phone}
-        onChange={(e) => setPhone(e.target.value)}
-        className="input"
-      />
+        <input
+          type="text"
+          placeholder="Nome"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="input"
+        />
 
-      {error && <p className="error">{error}</p>}
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="input"
+        />
 
-      <button onClick={handleCreate} disabled={loading} className="button">
-        {loading ? 'Salvando...' : 'Salvar Cliente'}
-      </button>
+        <input
+          type="text"
+          placeholder="Telefone"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          className="input"
+        />
+
+        {error && <p className="error">{error}</p>}
+
+        <button onClick={handleCreate} disabled={loading} className="button">
+          {loading ? 'Salvando...' : 'Salvar Cliente'}
+        </button>
+      </div>
+
     </div>
   )
 }
