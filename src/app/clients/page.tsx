@@ -46,11 +46,11 @@ export default function NewClient() {
       },
     ])
 
-    if (error) {
-      setError('Erro ao criar cliente')
-      setLoading(false)
-      return
-    }
+	if (error) {
+	  console.error('Client error:', error)
+	  setError(`Erro: ${error.message}`)
+	  return
+	}
 
     router.push('/dashboard')
   }

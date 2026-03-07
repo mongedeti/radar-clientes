@@ -20,11 +20,11 @@ export default function Signup() {
       password,
     })
 
-    if (error) {
-      setError('Erro ao criar conta')
-      setLoading(false)
-      return
-    }
+	if (error) {
+	  console.error('Signup error:', error)
+	  setError(`Erro: ${error.message}`)
+	  return
+	}
 
     router.push('/dashboard')
   }
