@@ -14,6 +14,18 @@ type Client = {
   created_at: string
 }
 
+function formatDate(dateString: string | null) {
+  if (!dateString) return 'Nenhum contato registrado'
+
+  const date = new Date(dateString)
+
+  return date.toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  })
+}
+
 export default function Dashboard() {
   const [clients, setClients] = useState<Client[]>([])
   const [loading, setLoading] = useState(true)
@@ -248,12 +260,24 @@ return (
               </div>
             </div>
 
-            <button
-              onClick={() => handleRegisterContact(client.id)}
-              className="btn btn-primary"
-            >
-              Registrar Contato
-            </button>
+			<div style={{ textAlign: 'right' }}>
+			  <button
+				onClick={() => handleRegisterContact(client.id)}
+				className="btn btn-primary"
+			  >
+				Registrar Contato
+			  </button>
+
+			  <div
+				style={{
+				  marginTop: 6,
+				  fontSize: 12,
+				  opacity: 0.7,
+				}}
+			  >
+				Último contato: {formatDate(client.last_contact_at)}
+			  </div>
+			</div>
           </li>
         )
       })}
