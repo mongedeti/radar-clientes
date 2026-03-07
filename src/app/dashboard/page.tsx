@@ -32,6 +32,12 @@ export default function Dashboard() {
   const [showOnlyRisk, setShowOnlyRisk] = useState(false)
   const [trialExpired, setTrialExpired] = useState(false)
   const [checkingTrial, setCheckingTrial] = useState(true)
+  const [userEmail, setUserEmail] = useState<string | null>(null)
+  
+  const handleLogout = async () => {
+  await supabase.auth.signOut()
+  window.location.href = '/login'
+	}
 
 useEffect(() => {
   const init = async () => {
@@ -40,6 +46,8 @@ useEffect(() => {
     } = await supabase.auth.getUser()
 
     if (!user) return
+	
+	setUserEmail(user.email ?? null)
 
     // Buscar perfil com trial
     const { data: profile } = await supabase
@@ -152,10 +160,27 @@ if (trialExpired) {
 return (
   <div className="container">
 
-    <div className="page-header">
-      <h1 className="page-title">Radar C</h1>
-      <div className="user-info">Painel de clientes</div>
-    </div>
+	<div className="page-header">
+
+	  <div>
+		<h1 className="page-title">Radar C</h1>
+		<div className="user-info">Painel de clientes</div>
+	  </div>
+
+	  <div style={{ textAlign: 'right' }}>
+		<div style={{ fontSize: 12, marginBottom: 6 }}>
+		  {userEmail}
+		</div>
+
+		<button
+		  className="btn btn-secondary"
+		  onClick={handleLogout}
+		>
+		  Sair
+		</button>
+	  </div>
+
+	</div>
 
     {/* FRASE DE IMPACTO */}
     <div style={{ marginBottom: 24 }}>
