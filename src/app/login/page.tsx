@@ -2,63 +2,66 @@
 
 import { useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import { useRouter } from 'next/navigation'
 
-export default function Login() {
-  const router = useRouter()
+export default function LoginPage() {
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
 
-  const handleLogin = async () => {
-    setLoading(true)
-    setError(null)
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     })
 
-    if (error) {
-      setError('Email ou senha inválidos')
-      setLoading(false)
-      return
+    if (!error) {
+      window.location.href = '/dashboard'
+    } else {
+      alert('Erro ao fazer login')
     }
-
-    router.push('/dashboard')
   }
 
   return (
-    <div className="card">
-      <h1 className="title">Radar C</h1>
-      <p className="subtitle">Acesse sua conta</p>
+    <div className="auth-container">
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="input"
-      />
+      <div className="auth-card">
 
-      <input
-        type="password"
-        placeholder="Senha"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="input"
-      />
+        <div className="auth-title">Radar C</div>
+        <div className="auth-subtitle">
+          Acesse sua conta
+        </div>
 
-      {error && <p className="error">{error}</p>}
+        <form onSubmit={handleLogin}>
 
-      <button onClick={handleLogin} disabled={loading} className="button">
-        {loading ? 'Entrando...' : 'Entrar'}
-      </button>
+          <input
+            className="auth-input"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-      <p className="link-text">
-        Não tem conta? <a href="/signup">Criar conta</a>
-      </p>
+          <input
+            className="auth-input"
+            type="password"
+            placeholder="Senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button className="auth-button">
+            Entrar
+          </button>
+
+        </form>
+
+        <div className="auth-footer">
+          Não tem conta? <a href="/signup">Criar conta</a>
+        </div>
+
+      </div>
+
     </div>
   )
 }

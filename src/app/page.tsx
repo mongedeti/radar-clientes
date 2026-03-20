@@ -97,7 +97,7 @@ export default function Home() {
           <h2>Comece hoje a vender com mais previsibilidade</h2>
           <br />
 		<Link href="/signup" className="btn-outline-light">
-		  Criar conta gratuita
+		  Criar conta
 		</Link>
         </div>
       </section>
