@@ -29,6 +29,16 @@ export default function RootLayout({
             gtag('config', 'AW-840339942');
           `}
         </Script>
+		
+		<!-- Event snippet for Visualização de página conversion page -->
+		<script>
+		  gtag('event', 'conversion', {
+			  'send_to': 'AW-840339942/vURKCInKto4cEOaj2pAD',
+			  'value': 1.0,
+			  'currency': 'BRL'
+		  });
+		</script>
+
 
         {children}
       </body>
