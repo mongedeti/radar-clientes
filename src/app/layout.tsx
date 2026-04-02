@@ -30,14 +30,13 @@ export default function RootLayout({
           `}
         </Script>
 		
-		<!-- Event snippet for Visualização de página conversion page -->
-		<script>
+		<Script>
 		  gtag('event', 'conversion', {
 			  'send_to': 'AW-840339942/vURKCInKto4cEOaj2pAD',
 			  'value': 1.0,
 			  'currency': 'BRL'
 		  });
-		</script>
+		</Script>
 
 
         {children}
