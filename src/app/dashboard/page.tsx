@@ -49,7 +49,17 @@ useEffect(() => {
 	
 	setUserEmail(user.email ?? null)
 
-    // Buscar perfil com trial
+    // Tratando pixel somente na primeira vez que acesa a dashboard
+	const alreadyTracked = localStorage.getItem('lead_tracked')
+
+	if (!alreadyTracked) {
+	  if (typeof window !== 'undefined' && window.fbq) {
+	    window.fbq('track', 'AcessouDashboard')
+	  }
+	  localStorage.setItem('lead_tracked', 'true')
+	}
+	  
+	// Buscar perfil com trial
     const { data: profile } = await supabase
       .from('profiles')
       .select('trial_started_at')
