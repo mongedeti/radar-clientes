@@ -26,9 +26,17 @@ export default function Home() {
             a saber exatamente quem precisa de atenção antes que seja tarde.
           </p>
 
-		<Link href="/signup" className="btn-primary-large">
-		  Começar agora
-		</Link>
+          <Link
+            href="/signup"
+            className="btn-primary-large"
+            onClick={() => {
+              if (typeof window !== 'undefined' && window.fbq) {
+                window.fbq('trackCustom', 'ComecarAgora')
+              }
+            }}
+          >
+            Começar agora
+          </Link>
         </div>
       </section>
 
@@ -96,9 +104,18 @@ export default function Home() {
         <div className="landing-center">
           <h2>Comece hoje a vender com mais previsibilidade</h2>
           <br />
-		<Link href="/signup" className="btn-outline-light">
-		  Criar conta
-		</Link>
+
+          <Link
+            href="/signup"
+            className="btn-outline-light"
+            onClick={() => {
+              if (typeof window !== 'undefined' && window.fbq) {
+                window.fbq('trackCustom', 'ComecarAgora')
+              }
+            }}
+          >
+            Criar conta
+          </Link>
         </div>
       </section>
 
