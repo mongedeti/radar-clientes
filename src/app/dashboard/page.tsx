@@ -54,7 +54,7 @@ useEffect(() => {
 
 	if (!alreadyTracked) {
 	  if (typeof window !== 'undefined' && window.fbq) {
-	    window.fbq('track', 'AcessouDashboard')
+	    window.fbq('track', 'Lead')
 	  }
 	  localStorage.setItem('lead_tracked', 'true')
 	}
