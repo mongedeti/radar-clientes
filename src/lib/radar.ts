@@ -5,8 +5,8 @@ export function getRadarStatus(lastContact: string | null) {
   const last = new Date(lastContact).getTime()
   const diffDays = (now - last) / (1000 * 60 * 60 * 24)
 
-  if (diffDays > 30) return "risco"
-  if (diffDays > 15) return "atenção"
+  if (diffDays > 7) return "risco"
+  if (diffDays > 4) return "atenção"
   return "saudável"
 }
 
