@@ -39,6 +39,16 @@ export default function Home() {
           >
             Começar agora
           </Link>
+
+          <p
+            style={{
+              marginTop: '16px',
+              opacity: 0.8,
+              fontSize: '14px',
+            }}
+          >
+            30 dias grátis • depois apenas R$ 9,90/mês
+          </p>
         </div>
       </section>
 
@@ -105,7 +115,16 @@ export default function Home() {
       <section className="landing-section section-dark">
         <div className="landing-center">
           <h2>Comece hoje a vender com mais previsibilidade</h2>
-          <br />
+
+          <p
+            style={{
+              marginTop: '12px',
+              marginBottom: '24px',
+              opacity: 0.85,
+            }}
+          >
+            Teste grátis por 30 dias. Depois, apenas R$ 9,90/mês.
+          </p>
 
           <Link
             href="/signup"
