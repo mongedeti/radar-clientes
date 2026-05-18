@@ -75,6 +75,7 @@ export default function NewClient() {
 
         <input
           type="text"
+          maxlength="50"
           placeholder="Nome"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -83,6 +84,7 @@ export default function NewClient() {
 
         <input
           type="email"
+          maxlength="50"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -91,6 +93,7 @@ export default function NewClient() {
 
         <input
           type="text"
+          maxlength="15"
           placeholder="Telefone"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
