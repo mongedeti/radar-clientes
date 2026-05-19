@@ -31,8 +31,12 @@ export default function NewClient() {
       throw new Error('Nome obrigatório')
     }
 
-    if (normalized.length < 2 || normalized.length > 50) {
-      throw new Error('Nome deve ter entre 2 e 50 caracteres')
+    if (normalized.length < 3 || normalized.length > 50) {
+      throw new Error('Nome deve ter entre 3 e 50 caracteres')
+    }
+
+    if (!/[aeiouáéíóúãõâêîôû]/i.test(normalized)) {
+      throw new Error('Nome inválido')
     }
 
     // Bloqueia repetição suspeita
