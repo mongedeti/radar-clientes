@@ -59,29 +59,39 @@ useEffect(() => {
 	  localStorage.setItem('lead_tracked', 'true')
 	}
 	  
-	// Buscar perfil com trial
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('trial_started_at')
-      .eq('id', user.id)
-      .single()
+const { data: profile } = await supabase
+  .from('profiles')
+  .select('trial_started_at, is_trial')
+  .eq('id', user.id)
+  .single()
 
-    if (!profile?.trial_started_at) {
-      setCheckingTrial(false)
-      return
-    }
+// Usuário pagante ou administrador
+if (profile?.is_trial === false) {
+  setCheckingTrial(false)
+} else {
+  // Usuário em período de teste
 
-    const start = new Date(profile.trial_started_at)
-    const now = new Date()
+  if (!profile?.trial_started_at) {
+    setCheckingTrial(false)
+    return
+  }
 
-    const diffInDays =
-      (now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
+  const start = new Date(
+    profile.trial_started_at
+  )
 
-    if (diffInDays > 30) {
-      setTrialExpired(true)
-      setCheckingTrial(false)
-      return
-    }
+  const now = new Date()
+
+  const diffInDays =
+    (now.getTime() - start.getTime()) /
+    (1000 * 60 * 60 * 24)
+
+  if (diffInDays > 30) {
+    setTrialExpired(true)
+    setCheckingTrial(false)
+    return
+  }
+}
 
     // Se trial ainda válido, carregar clientes
     const { data } = await supabase
